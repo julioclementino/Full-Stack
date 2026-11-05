@@ -1,12 +1,16 @@
-
 const categorias = document.querySelectorAll(".categoria");
 const produtos = document.querySelectorAll(".produto");
 const botoesAdicionar = document.querySelectorAll(".adicionar");
 
+const limparPedido = document.querySelector("#limpar-pedido");
+const listaPedido = document.querySelector("#lista-pedido");
 const carrinho = document.querySelector(".carrinho");
+const aviso = document.querySelector("#aviso");
 const quantidade = document.querySelector(".quantidade");
+const valorTotal = document.querySelector("#valor-total");
 
-let total = 0;
+let quantidadeItens = 0;
+let totalPreco = 0;
 
 // filtrar produtos por categoria
 
@@ -36,15 +40,50 @@ categorias.forEach((botao) => {
 
 botoesAdicionar.forEach((botao) => {
   botao.addEventListener("click", () => {
-    total++;
+    const produto = botao.closest(".produto");
+    const preco = Number(produto.dataset.preco);
 
-    quantidade.textContent = total;
-    carrinho.setAttribute("aria-label", `Carrinho com ${total} itens`);
+    const nome = produto.querySelector("h3").textContent;
+
+    const item = document.createElement("li");
+    item.textContent = nome;
+    listaPedido.append(item);
+
+    aviso.textContent = `${nome} adicionado ao pedido!`;
+
+    quantidadeItens++;
+    totalPreco = totalPreco + preco;
+
+    quantidade.textContent = quantidadeItens;
+
+    valorTotal.textContent = `R$ ${totalPreco.toFixed(2).replace(".", ",")}`;
+
+    carrinho.setAttribute(
+      "aria-label",
+      `Carrinho com ${quantidadeItens} itens`,
+    );
+
+    console.log("Quantidade:", quantidadeItens);
+    console.log("Total: R$", totalPreco.toFixed(2).replace(".", ","));
   });
 });
 
 // Mostrar quantidade ao clicar no carrinho
 
 carrinho.addEventListener("click", () => {
-  alert(`Você adicionou ${total} item(ns) ao carrinho!`);
+  alert(`Você adicionou ${quantidadeItens} item(ns) ao carrinho!`);
+});
+
+// Limpar pedido do carrinho
+limparPedido.addEventListener("click", () => {
+  quantidadeItens = 0;
+  totalPreco = 0;
+
+  quantidade.textContent = 0;
+  valorTotal.textContent = "R$ 0,00";
+
+  listaPedido.innerHTML = "";
+  aviso.textContent = "";
+
+  carrinho.setAttribute("aria-label", "Carrinho com 0 itens");
 });
