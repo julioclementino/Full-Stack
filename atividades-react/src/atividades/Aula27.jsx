@@ -7,8 +7,8 @@ function Aula27() {
     <div>
       <h1>Meu primeiro contador React</h1>
 
-      <h2>X-Tudo Especial</h2>
-      <p>Preço: R$ 18,00</p>
+      <h2>Bartolomias</h2>
+      <p>Preço: R$ 10,00</p>
 
       <p>Quantidade: {quantidade}</p>
 
