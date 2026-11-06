@@ -46,8 +46,36 @@ botoesAdicionar.forEach((botao) => {
     const nome = produto.querySelector("h3").textContent;
 
     const item = document.createElement("li");
-    item.textContent = nome;
+
+    const nomeItem = document.createElement("span");
+    nomeItem.textContent = nome;
+
+    const botaoRemover = document.createElement("button");
+    botaoRemover.textContent = "×";
+    botaoRemover.classList.add("remover-item");
+    botaoRemover.setAttribute("aria-label", `Remover ${nome}`);
+    botaoRemover.type = "button";
+
+    item.append(nomeItem, botaoRemover);
     listaPedido.append(item);
+
+    botaoRemover.addEventListener("click", () => {
+      item.remove();
+
+      quantidadeItens--;
+      totalPreco = totalPreco - preco;
+
+      quantidade.textContent = quantidadeItens;
+
+      valorTotal.textContent = `R$ ${totalPreco.toFixed(2).replace(".", ",")}`;
+
+      carrinho.setAttribute(
+        "aria-label",
+        `Carrinho com ${quantidadeItens} itens`,
+      );
+
+      aviso.textContent = `${nome} removido do pedido!`;
+    });
 
     aviso.textContent = `${nome} adicionado ao pedido!`;
 
